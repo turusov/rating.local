@@ -25,6 +25,9 @@ AppAsset::register($this);
 <body class="d-flex flex-column h-100">
 <?php $this->beginBody() ?>
 
+
+
+
 <header>
     <?php
     NavBar::begin([
@@ -40,6 +43,7 @@ AppAsset::register($this);
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
+            ['label' => 'Заполнить форму', 'url' => ['/form/fillform']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
@@ -74,6 +78,17 @@ AppAsset::register($this);
         <p class="float-right"><?= Yii::powered() ?></p>
     </div>
 </footer>
+
+<?php
+    $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/ico', 'href' => '/favicon.ico']);
+?>
+
+<link rel="shortcut icon" href="<?= Yii::$app->params['commonPath']; ?>/favicon.ico" type="image/x-icon" />
+
+
+<link rel="shortcut icon" href="<?php echo Yii::$app->request->baseUrl; ?>/images/favicon.ico" type="image/x-icon" />
+
+
 
 <?php $this->endBody() ?>
 </body>

@@ -1,9 +1,13 @@
 <?php
+use yii\helpers\Url;
 
 /** @var yii\web\View $this */
 
 $this->title = 'My Yii Application';
+$this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::to(['/favicon.png'])]);
 ?>
+
+
 <div class="site-index">
 
     <div class="jumbotron text-center bg-transparent">

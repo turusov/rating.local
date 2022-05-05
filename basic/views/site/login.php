@@ -6,6 +6,10 @@
 
 use yii\bootstrap4\ActiveForm;
 use yii\bootstrap4\Html;
+?>
+<?php
+/*
+?>
 
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
@@ -48,3 +52,17 @@ $this->params['breadcrumbs'][] = $this->title;
         To modify the username/password, please check out the code <code>app\models\User::$users</code>.
     </div>
 </div>
+*/
+?>
+<?php $form = ActiveForm::begin(); ?>
+
+<?=$form->field($login_model, 'username')->textInput();?>
+<?=$form->field($login_model, 'password')->passwordInput();?>
+
+<div>
+        <button class = "btn btn-success" type="submit">Login</button>
+</div>
+
+<?php 
+    $form = ActiveForm::end();
+?>

@@ -83,10 +83,10 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
-    {
-        return $this->render('index');
-    }
+     public function actionIndex()
+     {
+         return $this->render('index');
+        }
 
     /**
      * Login action.
@@ -170,7 +170,7 @@ class SiteController extends Controller
     public function actionSignup()
     {
         $model = new Signup();
-       
+
         $err = 0;
         if(isset($_POST['Signup']))
         {
@@ -195,6 +195,16 @@ class SiteController extends Controller
     public function actionLogin()
     {
         $login_model = new Login();
+        
+        if(Yii::$app->request->post('Login')){
+            //var_dump(Yii::$app->request->post('Login'));
+            $login_model->attributes = Yii::$app->request->post('Login');
+            if($login_model->validate()){
+                
+            }
+        }
         return $this->render('login', ['login_model' => $login_model]);
     }
+
+
 }
