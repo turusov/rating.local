@@ -91,4 +91,19 @@ class User extends ActiveRecord implements IdentityInterface
     public function validatePassword($password){
         return $this->getPassword() === sha1($password);
     }
+    public function getStatusTitle(){
+        if($this->user_status_id == 1){
+               return "guest"; 
+        }
+        if($this->user_status_id == 2){
+               return "admin"; 
+        }
+        if($this->user_status_id == 3){
+               return "zavkav"; 
+        }
+        if($this->user_status_id == 4){
+            return "teacher"; 
+        }
+           
+       }
 }

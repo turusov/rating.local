@@ -8,13 +8,14 @@ use Yii;
  * This is the model class for table "criteria".
  *
  * @property int $id
- * @property string $criteria
+ * @property int $criteria_id
+ * @property string $criteria_title
  * @property string $info_point
  * @property int $access
  * @property int|null $is_deleted
- * @property int $blog
+ * @property int $block_id
  *
- * @property Submitted[] $submitteds
+ * @property Block $block
  */
 class Criteria extends \yii\db\ActiveRecord
 {
@@ -32,9 +33,10 @@ class Criteria extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['criteria', 'info_point', 'access', 'blog'], 'required'],
-            [['access', 'is_deleted', 'blog'], 'integer'],
-            [['criteria', 'info_point'], 'string', 'max' => 255],
+            [['criteria_id', 'criteria_title', 'info_point', 'block_id'], 'required'],
+            [['criteria_id', 'access', 'is_deleted', 'block_id'], 'integer'],
+            [['criteria_title', 'info_point'], 'string', 'max' => 255],
+            [['block_id'], 'exist', 'skipOnError' => true, 'targetClass' => Block::className(), 'targetAttribute' => ['block_id' => 'id']],
         ];
     }
 
@@ -45,21 +47,22 @@ class Criteria extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'criteria' => 'Criteria',
+            'criteria_id' => 'Criteria ID',
+            'criteria_title' => 'Criteria Title',
             'info_point' => 'Info Point',
             'access' => 'Access',
             'is_deleted' => 'Is Deleted',
-            'blog' => 'Blog',
+            'block_id' => 'Block ID',
         ];
     }
 
     /**
-     * Gets query for [[Submitteds]].
+     * Gets query for [[Block]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getSubmitteds()
+    public function getBlock()
     {
-        return $this->hasMany(Submitted::className(), ['criteria_id' => 'id']);
+        return $this->hasOne(Block::className(), ['id' => 'block_id']);
     }
 }
