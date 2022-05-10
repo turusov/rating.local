@@ -10,6 +10,28 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return 'user';
     }
+    public function rules()
+    {
+        /*
+        return [
+            [['username', 'password', 'user_status_id'], 'required'],
+            [['user_status_id'], 'integer'],
+            [['username'], 'string', 'max' => 25],
+            [['password', 'auth_key'], 'string', 'max' => 255],
+            [['user_status_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserStatus::className(), 'targetAttribute' => ['user_status_id' => 'id']],
+        ];
+        return [ 
+            [['username','password'], 'required'],
+            [['user_status_id'], 'default','value'=>2],
+        ];
+        */
+        return [
+            [['username', 'password', 'user_status_id'], 'required'],
+            [['user_id', 'user_status_id'], 'integer'],
+            [['username', 'password'], 'string', 'max' => 100],
+            
+        ];
+    }
 
     /**
      * Finds an identity by the given ID.
@@ -61,5 +83,12 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function setPassword($password){
         $this->password = sha1($password);
+    }
+    
+    public function getPassword(){
+        return $this->password;
+    }
+    public function validatePassword($password){
+        return $this->getPassword() === sha1($password);
     }
 }

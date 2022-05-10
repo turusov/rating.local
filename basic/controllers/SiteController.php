@@ -7,11 +7,12 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
+//use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\EntryForm;
 use app\models\Signup;
 use app\models\Login;
+
 
 class SiteController extends Controller
 {
@@ -86,7 +87,7 @@ class SiteController extends Controller
      public function actionIndex()
      {
          return $this->render('index');
-        }
+     }
 
     /**
      * Login action.
@@ -119,7 +120,11 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
-        Yii::$app->user->logout();
+        if(!Yii::$app->user->isGuest)
+        {
+            Yii::$app->user->logout();
+            return $this->redirect(['login']);
+        }
 
         return $this->goHome();
     }
@@ -194,17 +199,20 @@ class SiteController extends Controller
 
     public function actionLogin()
     {
+        if(!Yii::$app->user->isGuest)
+        {
+            return $this->goHome();
+        }
         $login_model = new Login();
-        
-        if(Yii::$app->request->post('Login')){
-            //var_dump(Yii::$app->request->post('Login'));
+        if(Yii::$app->request->post('Login'))
+        {
             $login_model->attributes = Yii::$app->request->post('Login');
             if($login_model->validate()){
-                
+                Yii::$app->user->login($login_model->getUser());
+                return $this->goHome(); 
             }
         }
         return $this->render('login', ['login_model' => $login_model]);
     }
-
 
 }
