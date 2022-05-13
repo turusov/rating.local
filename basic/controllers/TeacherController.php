@@ -37,7 +37,7 @@ class TeacherController extends Controller
                                 if($status =="zavkav"){
                                     $access = true;
                                 }
-                            }
+                            }   
                             return $access;
                         }   
                     ],

@@ -14,6 +14,7 @@ use app\models\Login;
 use app\models\Criteria;
 use app\models\Submitted;
 use app\models\Block;
+use app\models\ArraySubmitted;
 
 class FormController extends Controller
 {
@@ -53,59 +54,72 @@ class FormController extends Controller
 
     //     $criterias=Criteria::find()->all(); 
     //     $blocks=Block::find()->orderBy('id ASC')->all();
-    //     $order = array(array());
-    //     for($i = 0 ; $i<count($blocks); $i++){
-    //         foreach($criterias as $criteria){
-    //             if($criteria->block_id == $i){
-    //                 array_push($order, $criteria->criteria_id);
-    //             }
-    //         }
-    //     }
-    //     $model = [];
+    //     $model = new ArraySubmitted();
+    //     //$model->array = [];
     //     foreach($criterias as $criteria){
     //         $submitted = Submitted::find()->where([
     //             'criteria_id' => $criteria->id, 
     //             'user_id' => $user_id,
     //             ])->limit(1)->one();
-    //         if(!is_object($submitted)){
-    //             $submitted = new Submitted();
+    //             array_push($model->array, $submitted);
     //         }
-    //         array_push($model, $submitted);
-    //     }
-    //     return $this->render('fill-form', ['criterias' => $criterias, 'blocks' => $blocks, 'order'=>$order ,'model' => $model]);
+    //     // return var_dump(Yii::$app->request->post());
+    //     if($model->load(Yii::$app->request->post()))
+    //     {
+    //         return var_dump($model);
+    //         //$model->save();
+    //     }  
+
+    //     return $this->render('fill-form', ['criterias' => $criterias, 'blocks' => $blocks ,'model' => $model]);
     // }
-    public function actionFillform()
+
+    // // public function actionTestView()
+    // // {
+    // //     return $this->render('test-view');
+    // // }
+
+    public function actionFillForm()
     {
         if (isset($_GET['user_id'])){
             $user_id = ($_GET['user_id']);
         }
         else
             $user_id = Yii::$app->user->identity->id;
-
+        
         $criterias=Criteria::find()->all(); 
         $blocks=Block::find()->orderBy('id ASC')->all();
-        $order = array(array());
-        for($i = 0 ; $i<count($blocks); $i++){
-            foreach($criterias as $criteria){
-                if($criteria->block_id == $i){
-                    array_push($order, $criteria->criteria_id);
+        $submitteds = Submitted::find()->where(['user_id'=>$user_id])->all();
+
+        // return gettype($submitteds);
+        for($i=0; $i<count($criterias); $i++)
+        {
+            $flag = False;
+            foreach($submitteds as $submitted)
+            { 
+                if($submitted->criteria_id==$criterias[$i]->id){
+                    $flag = True;
+                    break;
                 }
             }
-        }
-        $sub = Model::find()->indexBy('1')->all();
-
-        foreach($criterias as $criteria){
-            $submitted = Submitted::find()->where([
-                'criteria_id' => $criteria->id, 
-                'user_id' => $user_id,
-                ])->limit(1)->one();
-            if(!is_object($submitted)){
-                $submitted = new Submitted();
+            if(!$flag)
+            {
+                $sub = new Submitted();
+                $sub->user_id = $user_id;
+                $sub->criteria_id = $criterias[$i]->id;
+                array_push($submitteds, $sub);
             }
-            array_push($model, $submitted);
+            
+        }
+        
+
+        if (Model::loadMultiple($submitteds, Yii::$app->request->post()) && Model::validateMultiple($submitteds)) {
+            foreach ($submitteds as $submitted) {
+                $submitted->save();
+            }
         }
 
-        return $this->render('fill-form', ['criterias' => $criterias, 'blocks' => $blocks, 'order'=>$order ,'model' => $model]);
+        return $this->render('fill-form', ['submitteds' => $submitteds, 'criterias' => $criterias, 'blocks' => $blocks]);
+
     }
 
     // public function actionFormProcess()

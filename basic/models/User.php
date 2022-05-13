@@ -27,7 +27,7 @@ class User extends ActiveRecord implements IdentityInterface
         */
         return [
             [['username', 'password', 'user_status_id'], 'required'],
-            [['user_id', 'user_status_id'], 'integer'],
+            [['id', 'user_status_id'], 'integer'],
             [['username', 'password'], 'string', 'max' => 100],
             
         ];

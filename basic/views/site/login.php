@@ -7,12 +7,15 @@
 use yii\bootstrap4\ActiveForm;
 use yii\bootstrap4\Html;
 ?>
+<h1>
+    Вход в систему
+</h1>
 <?php
-/*
-?>
 
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
+/*
+?>
 ?>
 <div class="site-login">
     <h1><?= Html::encode($this->title) ?></h1>
@@ -59,10 +62,16 @@ $this->params['breadcrumbs'][] = $this->title;
 <?=$form->field($login_model, 'username')->textInput();?>
 <?=$form->field($login_model, 'password')->passwordInput();?>
 
-<div>
+<!-- <div>
         <button class = "btn btn-success" type="submit">Login</button>
-</div>
+</div> -->
 
+<div class="form-group">
+            <div class="col-lg-offset-1 col-lg-11">
+                <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                <a href="index.php?r=site%2Fsignup" class="btn btn-success">Register</a>    
+            </div>
+        </div>
 <?php 
     $form = ActiveForm::end();
 ?>
