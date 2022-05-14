@@ -102,7 +102,7 @@ class User extends ActiveRecord implements IdentityInterface
                return "zavkav"; 
         }
         if($this->user_status_id == 4){
-            return "teacher"; 
+               return "teacher"; 
         }
            
        }

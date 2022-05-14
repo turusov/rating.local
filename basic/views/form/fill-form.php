@@ -23,6 +23,11 @@ foreach($blocks as $block){
             for($j=0; $j<count($submitteds); $j++){
                 if($criterias[$i]->id == $submitteds[$j]->criteria_id){
                     echo '<td>';
+                    $val = 0;
+                    if(is_numeric($submitteds[$j]->value)){
+                        $val = $submitteds[$j]->value;
+                    }
+                    $submitteds[$j]->value = $val;
                     echo $form->field($submitteds[$j], "[$j]value")->label('Балл');
                     echo  $form->field($submitteds[$j], 'criteria_id')->hiddenInput(['value'=> $criterias[$i]->id])->label(false);
                     echo '<input type="hidden" name="id" value="'.$submitteds[$j]->id.'">';
@@ -37,7 +42,7 @@ foreach($blocks as $block){
     }
 }
 echo '</table>';
-echo '<div class="form-group margin-fix">';
+echo '<div class="form-group" style="float:right;">';
 echo Html::submitButton('Подтвердить', ['class' => 'btn btn-success']);
 echo '</div>';
 echo '</body>';

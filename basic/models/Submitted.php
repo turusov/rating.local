@@ -25,14 +25,23 @@ class Submitted extends \yii\db\ActiveRecord
         return 'submitted';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    public function valueBorders()
+    {   
+        $criteria = Criteria::find()->where(['id'=>$this->criteria_id])->limit(1)->one();
+        $min_value = $criteria->min_value;
+        $max_value = $criteria->max_value;
+        $arr = [0];
+        for($i = $min_value; $i<=$max_value; $i++){
+            array_push($arr,$i);
+        }
+        return $arr;
+    }
     public function rules()
     {
         return [
             [['user_id', 'criteria_id', 'value'], 'required'],
             [['user_id', 'criteria_id', 'value'], 'integer'],
+            [['value'], 'in', 'range' => $this->valueBorders()],
             [['criteria_id'], 'exist', 'skipOnError' => true, 'targetClass' => Criteria::className(), 'targetAttribute' => ['criteria_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];

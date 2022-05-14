@@ -44,40 +44,6 @@ class FormController extends Controller
             ],
         ];
     }
-    // public function actionFillform()
-    // {
-    //     if (isset($_GET['user_id'])){
-    //         $user_id = ($_GET['user_id']);
-    //     }
-    //     else
-    //         $user_id = Yii::$app->user->identity->id;
-
-    //     $criterias=Criteria::find()->all(); 
-    //     $blocks=Block::find()->orderBy('id ASC')->all();
-    //     $model = new ArraySubmitted();
-    //     //$model->array = [];
-    //     foreach($criterias as $criteria){
-    //         $submitted = Submitted::find()->where([
-    //             'criteria_id' => $criteria->id, 
-    //             'user_id' => $user_id,
-    //             ])->limit(1)->one();
-    //             array_push($model->array, $submitted);
-    //         }
-    //     // return var_dump(Yii::$app->request->post());
-    //     if($model->load(Yii::$app->request->post()))
-    //     {
-    //         return var_dump($model);
-    //         //$model->save();
-    //     }  
-
-    //     return $this->render('fill-form', ['criterias' => $criterias, 'blocks' => $blocks ,'model' => $model]);
-    // }
-
-    // // public function actionTestView()
-    // // {
-    // //     return $this->render('test-view');
-    // // }
-
     public function actionFillForm()
     {
         if (isset($_GET['user_id'])){
@@ -121,20 +87,6 @@ class FormController extends Controller
         return $this->render('fill-form', ['submitteds' => $submitteds, 'criterias' => $criterias, 'blocks' => $blocks]);
 
     }
-
-    // public function actionFormProcess()
-    // {
-    //     if (is_numeric($_POST['id'])){
-    //         $model=Submitted::find()->where("id=".$_POST['id'])->one();
-    //     }
-    //     else{
-    //         $model = new Submitted();
-    //     }
-    //     $model->load(\Yii::$app->request->post());
-    //     $model->user_id = Yii::$app->user->identity->id;
-    //     $model->save(); 
-    //     return $this->redirect("index.php?r=form%2Ffillform");
-    // }
 
 }
 ?>
