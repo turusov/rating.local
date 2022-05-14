@@ -2,16 +2,16 @@
 
 namespace app\controllers;
 
-use app\models\Criteria;
-use app\models\CriteriaSearch;
+use app\models\Block;
+use app\models\BlockSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * CriteriaController implements the CRUD actions for Criteria model.
+ * BlockController implements the CRUD actions for Block model.
  */
-class CriteriaController extends Controller
+class BlockController extends Controller
 {
     /**
      * @inheritDoc
@@ -32,13 +32,13 @@ class CriteriaController extends Controller
     }
 
     /**
-     * Lists all Criteria models.
+     * Lists all Block models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new CriteriaSearch();
+        $searchModel = new BlockSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -48,7 +48,7 @@ class CriteriaController extends Controller
     }
 
     /**
-     * Displays a single Criteria model.
+     * Displays a single Block model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -61,20 +61,17 @@ class CriteriaController extends Controller
     }
 
     /**
-     * Creates a new Criteria model.
+     * Creates a new Block model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Criteria();
+        $model = new Block();
+
         if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-                $criteria = Criteria::find()->where(['block_id'=>$model->block_id])->limit(1)->one();
-                $criteria_id = $criteria->id;
-                $model->criteria_id = $criteria_id;
-                if( $model->save())
-                    return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
             $model->loadDefaultValues();
@@ -86,7 +83,7 @@ class CriteriaController extends Controller
     }
 
     /**
-     * Updates an existing Criteria model.
+     * Updates an existing Block model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -106,7 +103,7 @@ class CriteriaController extends Controller
     }
 
     /**
-     * Deletes an existing Criteria model.
+     * Deletes an existing Block model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -120,15 +117,15 @@ class CriteriaController extends Controller
     }
 
     /**
-     * Finds the Criteria model based on its primary key value.
+     * Finds the Block model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return Criteria the loaded model
+     * @return Block the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Criteria::findOne(['id' => $id])) !== null) {
+        if (($model = Block::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

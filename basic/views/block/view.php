@@ -4,14 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Criteria */
+/* @var $model app\models\Block */
 
-$this->title = $model->criteria_title;
-$this->params['breadcrumbs'][] = ['label' => 'Критерии', 'url' => ['index']];
+$this->title = $model->title;
+$this->params['breadcrumbs'][] = ['label' => 'Blocks', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="criteria-view">
+<div class="block-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -30,14 +30,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'criteria_id',
-            'criteria_title',
-            'info_point',
-            'access',
-            'is_deleted',
-            'block_id',
-            'min_value',
-            'max_value',
+            'title',
+            'commentary',
         ],
     ]) ?>
 

@@ -3,7 +3,7 @@ namespace app\models;
 
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
-
+use app\models\UserStatus;
 class User extends ActiveRecord implements IdentityInterface
 {
     public static function tableName()
@@ -92,18 +92,7 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->getPassword() === sha1($password);
     }
     public function getStatusTitle(){
-        if($this->user_status_id == 1){
-               return "guest"; 
-        }
-        if($this->user_status_id == 2){
-               return "admin"; 
-        }
-        if($this->user_status_id == 3){
-               return "zavkav"; 
-        }
-        if($this->user_status_id == 4){
-               return "teacher"; 
-        }
-           
-       }
+        $status = UserStatus::find()->where(['id'=>$this->user_status_id])->limit(1)->one();
+        return $status->name;
+    }
 }

@@ -52,7 +52,7 @@ class FormController extends Controller
         else
             $user_id = Yii::$app->user->identity->id;
         
-        $criterias=Criteria::find()->all(); 
+        $criterias=Criteria::find()->where(['is_deleted'=>NULL])->all(); 
         $blocks=Block::find()->orderBy('id ASC')->all();
         $submitteds = Submitted::find()->where(['user_id'=>$user_id])->all();
 

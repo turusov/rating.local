@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Criteria */
 
-$this->title = 'Update Criteria: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Criterias', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Редактировать критерий: ' . $model->criteria_title;
+$this->params['breadcrumbs'][] = ['label' => 'Критерии', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->criteria_title, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = 'Редактировать критерий';
 ?>
 <div class="criteria-update">
 

@@ -46,6 +46,7 @@ AppAsset::register($this);
             ['label' => 'Заполнить форму', 'url' => ['/form/fill-form']],
             ['label' => 'Список преподавателей кафедры', 'url' => ['/teacher/teacher-list']],
             ['label' => 'Личный кабинет', 'url' => ['/user-data/view']],
+            ['label' => 'Редактировать критерии', 'url' => ['/criteria/index']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (

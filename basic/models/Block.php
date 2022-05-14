@@ -29,7 +29,7 @@ class Block extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'title'], 'required'],
+            [['title'], 'required'],
             [['id'], 'integer'],
             [['title', 'commentary'], 'string', 'max' => 255],
             [['id'], 'unique'],
@@ -43,8 +43,8 @@ class Block extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'commentary' => 'Commentary',
+            'title' => 'Название блока',
+            'commentary' => 'Комментарий(необязательно)',
         ];
     }
 

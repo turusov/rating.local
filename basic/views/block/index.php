@@ -6,18 +6,18 @@ use yii\grid\ActionColumn;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\CriteriaSearch */
+/* @var $searchModel app\models\BlockSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Критерии ЭК';
+$this->title = 'Blocks';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="criteria-index">
+<div class="block-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Добавить новый критерий', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Block', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -28,15 +28,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            // 'id',
-            // 'criteria_id',
-            'criteria_title',
-            'info_point',
-            'access',
-            'is_deleted',
-            //'block_id',
-            //'min_value', 
-            //'max_value',
+            'id',
+            'title',
+            'commentary',
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

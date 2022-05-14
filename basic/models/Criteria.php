@@ -14,8 +14,11 @@ use Yii;
  * @property int $access
  * @property int|null $is_deleted
  * @property int $block_id
+ * @property int|null $min_value
+ * @property int|null $max_value
  *
  * @property Block $block
+ * @property Submitted[] $submitteds
  */
 class Criteria extends \yii\db\ActiveRecord
 {
@@ -34,7 +37,7 @@ class Criteria extends \yii\db\ActiveRecord
     {
         return [
             [['criteria_id', 'criteria_title', 'info_point', 'block_id'], 'required'],
-            [['criteria_id', 'access', 'is_deleted', 'block_id'], 'integer'],
+            [['criteria_id', 'access', 'is_deleted', 'block_id', 'min_value', 'max_value'], 'integer'],
             [['criteria_title', 'info_point'], 'string', 'max' => 255],
             [['block_id'], 'exist', 'skipOnError' => true, 'targetClass' => Block::className(), 'targetAttribute' => ['block_id' => 'id']],
         ];
@@ -48,11 +51,13 @@ class Criteria extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'criteria_id' => 'Criteria ID',
-            'criteria_title' => 'Criteria Title',
-            'info_point' => 'Info Point',
-            'access' => 'Access',
+            'criteria_title' => 'Название критерия',
+            'info_point' => 'Информация о баллах',
+            'access' => 'Доступ',
             'is_deleted' => 'Is Deleted',
             'block_id' => 'Block ID',
+            'min_value' => 'Min Value',
+            'max_value' => 'Max Value',
         ];
     }
 
@@ -64,5 +69,15 @@ class Criteria extends \yii\db\ActiveRecord
     public function getBlock()
     {
         return $this->hasOne(Block::className(), ['id' => 'block_id']);
+    }
+
+    /**
+     * Gets query for [[Submitteds]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSubmitteds()
+    {
+        return $this->hasMany(Submitted::className(), ['criteria_id' => 'id']);
     }
 }
