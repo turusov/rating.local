@@ -4,6 +4,7 @@ namespace app\models;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use app\models\UserStatus;
+use app\models\Submitted;
 class User extends ActiveRecord implements IdentityInterface
 {
     public static function tableName()

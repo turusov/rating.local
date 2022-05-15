@@ -90,4 +90,24 @@ class UserData extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+    public function calculateRating()
+    {
+        $submitteds = Submitted::find()->where(['user_id'=>$this->user_id])->all();
+        $criterias = Criteria::find()->all();
+        $sum = 0;
+        $array = array();
+        foreach($criterias as $criteria)
+        {
+            $array[$criteria->id] = $criteria->is_subtract;
+        }
+
+        foreach($submitteds as $submitted)
+        {
+            if(is_null($array[$submitted->criteria_id]))
+                $sum+= $submitted->value;
+            else
+                $sum-= $submitted->value;
+        }
+        return $sum;
+    }
 }

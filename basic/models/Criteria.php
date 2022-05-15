@@ -37,7 +37,7 @@ class Criteria extends \yii\db\ActiveRecord
     {
         return [
             [['criteria_id', 'criteria_title', 'info_point', 'block_id'], 'required'],
-            [['criteria_id', 'access', 'is_deleted', 'block_id', 'min_value', 'max_value'], 'integer'],
+            [['criteria_id', 'access', 'is_deleted', 'block_id', 'min_value', 'max_value', 'is_subtract'], 'integer'],
             [['criteria_title', 'info_point'], 'string', 'max' => 255],
             [['block_id'], 'exist', 'skipOnError' => true, 'targetClass' => Block::className(), 'targetAttribute' => ['block_id' => 'id']],
         ];

@@ -33,7 +33,7 @@ class FormController extends Controller
                             if(!Yii::$app->user->isGuest){
                                 $user = Yii::$app->user->identity;
                                 $status = $user->getStatusTitle();
-                                if($status == "teacher" || $status =="zavkav"){
+                                if($status == "teacher" || $status =="zavkaf"){
                                     $access = true;
                                 }
                             }
@@ -55,26 +55,31 @@ class FormController extends Controller
         $criterias=Criteria::find()->where(['is_deleted'=>NULL])->all(); 
         $blocks=Block::find()->orderBy('id ASC')->all();
         $submitteds = Submitted::find()->where(['user_id'=>$user_id])->all();
-
-        // return gettype($submitteds);
+        $is_confirmed = False; //подтверждена ли форма
+        if(!is_null($submitteds) && count($submitteds))
+        {
+            if($submitteds[0]->is_confirmed == 3)// если его форму подтвердили, она закроется 
+            {
+                $is_confirmed = True;
+            }
+        }
         for($i=0; $i<count($criterias); $i++)
         {
-            $flag = False;
+            $exists = False;
             foreach($submitteds as $submitted)
             { 
                 if($submitted->criteria_id==$criterias[$i]->id){
-                    $flag = True;
+                    $exists = True;
                     break;
                 }
             }
-            if(!$flag)
+            if(!$exists)
             {
                 $sub = new Submitted();
                 $sub->user_id = $user_id;
                 $sub->criteria_id = $criterias[$i]->id;
                 array_push($submitteds, $sub);
             }
-            
         }
         
 
@@ -82,9 +87,9 @@ class FormController extends Controller
             foreach ($submitteds as $submitted) {
                 $submitted->save();
             }
-        }
+        }   
 
-        return $this->render('fill-form', ['submitteds' => $submitteds, 'criterias' => $criterias, 'blocks' => $blocks]);
+        return $this->render('fill-form', ['submitteds' => $submitteds, 'criterias' => $criterias, 'blocks' => $blocks, 'is_confirmed' => $is_confirmed]);
 
     }
 
