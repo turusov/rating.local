@@ -4,16 +4,16 @@ use yii\helpers\GridView;
 use yii\widgets\ActiveForm;
 use app\models\Submitted;
 
-$this->title = 'Form';
+$this->title = 'Заполнить форму';
 $this->params['breadcrumbs'][] = $this->title;
 echo '<body class="background">';;
-echo '<table class="table table-dark table-hover">';
+echo '<table class="table table-striped table-bordered">';
 echo '<tr><th>№</th><th>Критерий</th><th>Разбалловка</th><th>Индивидуальный балл</th></tr>';
 
 
 $form = ActiveForm::begin();
 foreach($blocks as $block){
-    echo '<td colspan="5" align="center">'.'Блок № '.$block->id.'. '.$block->title.'</td>';
+    echo '<td colspan="6" align="center">'.'Блок № '.$block->id.'. '.$block->title.'</td>';
     for( $i=0;$i<count($criterias); $i++){
         if($criterias[$i]->block_id == $block->id){
             echo '<tr>';
@@ -46,11 +46,9 @@ foreach($blocks as $block){
                     {
                         echo $val;
                     }
-                    echo '<td>';
                 }   
+                echo '</td>';
             }
-            echo '<td>';
-            echo '</td>';
         }
         echo '</tr>';
     }

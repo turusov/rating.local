@@ -7,8 +7,8 @@ use app\models\Faculty;
 /* @var $this yii\web\View */
 /* @var $model app\models\UserData */
 
-$this->title = 'Информация';
-$this->params['breadcrumbs'][] = ['label' => 'User Datas', 'url' => ['index']];
+$this->title = 'Личный кабинет';
+// $this->params['breadcrumbs'][] = ['label' => 'Список пользователей', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 $d = Department::find()->where(['id'=>$model->faculty_id])->all(); //кафедры
@@ -19,7 +19,7 @@ $f = Faculty::find()->all();
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <!-- <?= Html::a('Delete', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -36,6 +36,24 @@ $f = Faculty::find()->all();
             'name',
             'surname',
             'patronymic',
+            [
+                'label'=> 'Факультет',
+                'attribute'=>'faculty_id',
+                'value'=> Faculty::getFacultyTitle($model->faculty_id)
+            ], 
+            [
+                'label'=> 'Кафедра',
+                'attribute'=>'department_id',
+                'value'=> Department::getDepartmentTitle($model->department_id)
+            ], 
+            [
+                'label'=> 'Ученое звание',
+                'attribute'=>'academic_rank',
+            ], 
+            [
+                'label'=> 'Ставка',
+                'attribute'=>'work_rate',
+            ], 
         ],
     ]) ?>
 

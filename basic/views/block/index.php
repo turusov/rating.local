@@ -9,7 +9,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\BlockSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Blocks';
+$this->title = 'Блоки критериев';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="block-index">
@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Block', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить блок критериев', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            // 'id',
             'title',
             'commentary',
             ['class' => 'yii\grid\ActionColumn'],

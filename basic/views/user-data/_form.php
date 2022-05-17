@@ -22,10 +22,17 @@ foreach($f as $i){
     $departments[$i->title]=$tmp; 
 }
 
-
-// foreach($f as $i){
-//     $faculties[$i->id] = $i->title;
-// }
+$ranks = array(
+    'Доцент'=> 'Доцент',
+    'Профессор' => 'Профессор',
+    null => 'Не выбрано',
+);
+$rates = [
+    1 => '1/4',
+    2 => '1/2',
+    4 => 'Полная',
+    null => 'Не выбрано',
+];
 ?>
 
 <div class="user-data-form">
@@ -43,9 +50,12 @@ foreach($f as $i){
     
     <?= $form->field($model, 'department_id')->dropDownList($departments, ['prompt'=>'выберите статус...'])->label('Кафедра') ?>
 
+    <?= $form->field($model, 'academic_rank')->dropDownList($ranks, ['prompt'=>'выберите статус...'])->label('Ученое звание') ?>
+
+    <?= $form->field($model, 'work_rate')->dropDownList($rates, ['prompt'=>'выберите статус...'])->label('Ставка') ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

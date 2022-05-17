@@ -64,4 +64,8 @@ class Faculty extends \yii\db\ActiveRecord
     {
         return $this->hasMany(UserData::className(), ['faculty_id' => 'id']);
     }
+    public static function getFacultyTitle($faculty_id)
+    {
+       return static::findOne(['id' => $faculty_id])->title; 
+    }
 }

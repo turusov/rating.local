@@ -54,10 +54,10 @@ class Criteria extends \yii\db\ActiveRecord
             'criteria_title' => 'Название критерия',
             'info_point' => 'Информация о баллах',
             'access' => 'Доступ',
-            'is_deleted' => 'Is Deleted',
+            'is_deleted' => 'Активен в текущем году',
             'block_id' => 'Block ID',
-            'min_value' => 'Min Value',
-            'max_value' => 'Max Value',
+            'min_value' => 'Минимальное значение',
+            'max_value' => 'Максимальное значение',
         ];
     }
 

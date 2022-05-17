@@ -48,7 +48,7 @@ $blocks = $arr;
     <?= $form->field($model, 'max_value')->label('Максимальное значение балла критерия(может совпадать с минимальным)')->textInput(['maxlength' => true])?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

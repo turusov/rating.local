@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Block */
 
-$this->title = 'Create Block';
-$this->params['breadcrumbs'][] = ['label' => 'Blocks', 'url' => ['index']];
+$this->title = 'Добавить блок критериев';
+$this->params['breadcrumbs'][] = ['label' => 'Блоки критериев', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="block-create">

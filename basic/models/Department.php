@@ -68,4 +68,8 @@ class Department extends \yii\db\ActiveRecord
     {
         return $this->hasMany(UserData::className(), ['department_id' => 'id']);
     }
+    public static function getDepartmentTitle($department_id)
+    {
+       return static::findOne(['id' => $department_id])->title; 
+    }
 }

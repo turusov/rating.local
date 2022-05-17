@@ -19,49 +19,32 @@ use yii\models\User;
  */
 class UserDataController extends Controller
 {
-    /**
-     * @inheritDoc
-     */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => ['index'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index'],
+                        'matchCallback' => function($rule, $action){
+                            $access = false;
+                            if(!Yii::$app->user->isGuest){
+                                $user = Yii::$app->user->identity;
+                                $status = $user->getStatusTitle();
+                                if($status =="admin"){
+                                    $access = true;
+                                }
+                            }   
+                            return $access;
+                        }   
                     ],
                 ],
-            ]
-        );
+            ],
+        ];
     }
-    // public function behaviors()
-    // {
-    //     return [
-    //         'access' => [
-    //             'class' => AccessControl::class,
-    //             'only' => ['teacher-list'],
-    //             'rules' => [
-    //                 [
-    //                     'allow' => true,
-    //                     'actions' => ['teacher-list'],
-    //                     'matchCallback' => function($rule, $action){
-    //                         $access = false;
-    //                         if(!Yii::$app->user->isGuest){
-    //                             $user = Yii::$app->user->identity;
-    //                             $status = $user->getStatusTitle();
-    //                             if($status =="zavkav"){
-    //                                 $access = true;
-    //                             }
-    //                         }   
-    //                         return $access;
-    //                     }   
-    //                 ],
-    //             ],
-    //         ],
-    //     ];
-    // }
 
     /**
      * Lists all UserData models.

@@ -4,7 +4,7 @@ use yii\helpers\GridView;
 use yii\widgets\ActiveForm;
 use app\models\Submitted;
 
-$this->title = 'Teachers';
+$this->title = 'Преподаватели';
 $this->params['breadcrumbs'][] = $this->title;
 
 

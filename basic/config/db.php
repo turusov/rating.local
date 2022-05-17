@@ -6,7 +6,7 @@ return [
     'username' => 'root',
     'password' => '',
     'charset' => 'utf8',
-
+    // 'nullConversion' => PDO::NULL_TO_STRING,
     // Schema cache options (for production environment)
     //'enableSchemaCache' => true,
     //'schemaCacheDuration' => 60,
