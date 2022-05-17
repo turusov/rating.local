@@ -7,7 +7,7 @@ use app\models\Faculty;
 /* @var $this yii\web\View */
 /* @var $model app\models\UserData */
 
-$this->title = 'Редактировать информацию';
+$this->title = 'Информация';
 $this->params['breadcrumbs'][] = ['label' => 'User Datas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);

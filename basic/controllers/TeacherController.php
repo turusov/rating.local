@@ -16,7 +16,7 @@ use app\models\Submitted;
 use app\models\User;
 use app\models\UserData;
 use app\models\Block;
-
+use yii\helpers\ArrayHelper;
 class TeacherController extends Controller
 {
     public function behaviors()
@@ -49,19 +49,36 @@ class TeacherController extends Controller
     {
         $model = [];
         $faculty=UserData::find()->where(['user_id' => Yii::$app->user->identity->id])->one()->faculty_id;
+        $users=UserData::find()->where(['faculty_id' => $faculty])->all();
+        // $ids = [];
+        // foreach($users as $user){
+        //     array_push($ids, $user->user_id);
+        // }       
+        // $submitteds = Submitted::find()->where(['user_id' => $ids])->one(); 
         $query = sprintf("
-        select user_data.*, sq.is_confirmed from user_data 
-            inner join 
-            (select user_id, is_confirmed
-                from submitted
-                group by user_id 
-                ) sq 
-            on sq.user_id = user_data.user_id
+        select user_data.user_id, sq.is_confirmed from user_data 
+        inner join 
+        (select user_id, is_confirmed
+        from submitted
+        group by user_id 
+        ) sq 
+        on sq.user_id = user_data.user_id
         where user_data.faculty_id = %s", $faculty);
-        //$users=UserData::find()->where(['faculty_id' => $faculty])->all();
-        $users=Yii::$app->db->createCommand($query)->queryAll();
-        return (var_dump($users));
-        return $this->render('teacher-list', ['users'=>$users]);
+        $submitteds=Yii::$app->db->createCommand($query)->queryAll();
+        // return var_dump($submitteds[0]);
+        $submitted_confirm_status = [];
+        foreach($users as $user){
+            foreach($submitteds as $submitted){
+                if($submitted['user_id'] == $user->user_id){
+                    $submitted_confirm_status[$user->user_id] = $submitted['is_confirmed'];
+                }
+            }
+        }
+
+        $confirm_value = Yii::$app->user->identity->getConfirmValue();
+
+        // return var_dump($is_confirmed);
+        return $this->render('teacher-list', ['users'=>$users, 'submitted_confirm_status'=>$submitted_confirm_status, 'confirm_value'=>$confirm_value]);
     }
 
     public function actionConfirmForm()
@@ -69,27 +86,20 @@ class TeacherController extends Controller
         if (isset($_GET['user_id'])){
             $user_id = ($_GET['user_id']);
         }
+        if (isset($_GET['is_confirm'])){
+            $is_confirm = ($_GET['is_confirm']);
+        }
         $submitteds = Submitted::find()->where(['user_id'=>$user_id])->all();
-        $status = Yii::$app->user->identity->getStatusTitle();
-        if($status == 'dekanat')
-        {
-            $value = 1;
-        }
-        else if ($status == 'zavkaf')
-        {
-            $value = 2;
-        }
+        $confirm_value = Yii::$app->user->identity->getConfirmValue();
         if (Model::validateMultiple($submitteds))
         {
             foreach($submitteds as $submitted)
             {
-                if(is_null($submitted->is_confirmed)) //если не подтверждена совсем
-                    $submitted -> is_confirmed = $value;
-                else
-                    if($submitted->is_confirmed != $value) //если ее не еще раз подтверждают
-                        $submitted -> is_confirmed = 3;
-
-                $submitted -> save();
+                if($is_confirm)
+                    $submitted->is_confirmed += $confirm_value;
+                else 
+                    $submitted->is_confirmed -= $confirm_value;
+                $submitted->save();
             }
         }
         return $this->redirect('index.php?r=teacher%2Fteacher-list');

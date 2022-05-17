@@ -96,4 +96,16 @@ class User extends ActiveRecord implements IdentityInterface
         $status = UserStatus::find()->where(['id'=>$this->user_status_id])->limit(1)->one();
         return $status->name;
     }
+    public function getConfirmValue(){
+    $status = $this->getStatusTitle();
+    if($status == 'dekanat')
+        {
+            $value = 1;
+        }
+        else if ($status == 'zavkaf')
+        {
+            $value = 2;
+        }
+        return $value;
+    }
 }

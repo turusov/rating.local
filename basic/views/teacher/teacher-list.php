@@ -15,7 +15,7 @@ echo '<tr><th>№</th><th>Фамилия</th><th>Имя</th><th>Отчество
 
 for( $i=0;$i<count($users); $i++){
     echo '<tr>';
-    echo '<td>'.$users[$i]['id'].'</td>';
+    echo '<td>'.$users[$i]->id.'</td>';
     echo '<td>'.$users[$i]->surname.'</td>';
     echo '<td>'.$users[$i]->name.'</td>'; 
     echo '<td>'.$users[$i]->patronymic.'</td>'; 
@@ -24,11 +24,11 @@ for( $i=0;$i<count($users); $i++){
     echo ' <a class="button-add" href="index.php?r=form%2Ffill-form&user_id='.$users[$i]->user_id.'" > Смотреть форму </a>';
     echo '</td>';
     echo '<td>';
-    if($users[$i]){
-        echo ' <a class="button-add" href="index.php?r=teacher%2Fconfirm-form&user_id='.$users[$i]->user_id.'" > Подтвердить форму</a>';
+    if($submitted_confirm_status[$users[$i]->user_id]!=$confirm_value && $submitted_confirm_status[$users[$i]->user_id]!=3){ //если форму не подтверждал этот юзер, и если она не подтверждена в целом
+        echo ' <a class="button-add" href="index.php?r=teacher%2Fconfirm-form&user_id='.$users[$i]->user_id.'&is_confirm='.true.'" > Подтвердить форму</a>';
     }
     else{
-        echo ' <a class="button-add" href="index.php?r=teacher%2Fconfirm-form&user_id='.$users[$i]->user_id.'" > Отменить подтверждение</a>';
+        echo ' <a class="button-add" href="index.php?r=teacher%2Fconfirm-form&user_id='.$users[$i]->user_id.'&is_confirm='.False.'" > Отменить подтверждение</a>';
     }
     echo '</td>';
     echo '</tr>';

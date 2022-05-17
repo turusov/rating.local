@@ -28,8 +28,16 @@ foreach($blocks as $block){
                         $val = $submitteds[$j]->value;
                     }
                     $submitteds[$j]->value = $val;
-                    if(!$is_confirmed)
+                    // in_array($user_status_id, $access[$criterias[$i]->id])
+                    $allowed = False;
+                    foreach($access as $a)
                     {
+                        if($a->criteria_id == $criterias[$i]->id){
+                            $allowed = True; //выведет Form для данного критерия если он есть в массиве access
+                        }
+                    }
+                    if(!$is_confirmed && $allowed)
+                    {   
                         echo $form->field($submitteds[$j], "[$j]value")->label('Балл');
                         echo  $form->field($submitteds[$j], 'criteria_id')->hiddenInput(['value'=> $criterias[$i]->id])->label(false);
                         echo '<input type="hidden" name="id" value="'.$submitteds[$j]->id.'">';

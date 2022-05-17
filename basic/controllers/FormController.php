@@ -15,7 +15,7 @@ use app\models\Criteria;
 use app\models\Submitted;
 use app\models\Block;
 use app\models\ArraySubmitted;
-
+use app\models\CriteriaAccess;
 class FormController extends Controller
 {
     public function behaviors()
@@ -55,6 +55,10 @@ class FormController extends Controller
         $criterias=Criteria::find()->where(['is_deleted'=>NULL])->all(); 
         $blocks=Block::find()->orderBy('id ASC')->all();
         $submitteds = Submitted::find()->where(['user_id'=>$user_id])->all();
+        $user_status_id = Yii::$app->user->identity->user_status_id;
+        $access = CriteriaAccess::find()->where(['user_status_id'=>[$user_status_id, 4]])->orderBy('criteria_id ASC')->all();//найдет в таблице пересечений criteria_access критерии которые может заполнять препод(user_status_id = 4) + другие по user->identity->status_id 
+        // return (var_dump($user_status_id));
+        // return (var_dump($access));
         $is_confirmed = False; //подтверждена ли форма
         if(!is_null($submitteds) && count($submitteds))
         {
@@ -88,8 +92,7 @@ class FormController extends Controller
                 $submitted->save();
             }
         }   
-
-        return $this->render('fill-form', ['submitteds' => $submitteds, 'criterias' => $criterias, 'blocks' => $blocks, 'is_confirmed' => $is_confirmed]);
+        return $this->render('fill-form', ['submitteds' => $submitteds, 'criterias' => $criterias, 'user_status_id'=>$user_status_id, 'blocks' => $blocks,'access'=>$access, 'is_confirmed' => $is_confirmed]);
 
     }
 
