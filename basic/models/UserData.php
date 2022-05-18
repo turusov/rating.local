@@ -6,6 +6,7 @@ use Yii;
 use app\models\Department;
 class UserData extends \yii\db\ActiveRecord
 {
+
     public static function tableName()
     {
         return 'user_data';
@@ -22,6 +23,7 @@ class UserData extends \yii\db\ActiveRecord
             [['name', 'surname'], 'string', 'max' => 30],
             [['patronymic'], 'string', 'max' => 40],
             [['academic_rank'], 'string', 'max' => 50],
+            [['academic_rank'], 'default', 'value'=>null],
             [['department_id'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['department_id' => 'id']],
             [['faculty_id'], 'exist', 'skipOnError' => true, 'targetClass' => Faculty::className(), 'targetAttribute' => ['faculty_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
@@ -41,7 +43,6 @@ class UserData extends \yii\db\ActiveRecord
             'patronymic' => 'Отчество',
             'department_id' => 'Department ID',
             'faculty_id' => 'Faculty ID',
-
         ];
     }
 

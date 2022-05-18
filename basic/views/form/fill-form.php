@@ -22,8 +22,7 @@ foreach($blocks as $block){
             echo '<td>'.$criterias[$i]->info_point.'</td>'; 
             for($j=0; $j<count($submitteds); $j++){
                 if($criterias[$i]->id == $submitteds[$j]->criteria_id){
-                    echo '<td>';
-                    $val = 0;
+                    $val = null;
                     if(is_numeric($submitteds[$j]->value)){
                         $val = $submitteds[$j]->value;
                     }
@@ -38,13 +37,18 @@ foreach($blocks as $block){
                     }
                     if(!$is_confirmed && $allowed)
                     {   
+                        echo '<td style = background-color:#e3fbe3>';
                         echo $form->field($submitteds[$j], "[$j]value")->label('Балл');
                         echo  $form->field($submitteds[$j], 'criteria_id')->hiddenInput(['value'=> $criterias[$i]->id])->label(false);
                         echo '<input type="hidden" name="id" value="'.$submitteds[$j]->id.'">';
                     }
                     else
                     {
-                        echo $val;
+                        echo '<td style = background-color:gray>';
+                        if(is_null($val))
+                            echo 'Не заполнено';
+                        else 
+                            echo $val;
                     }
                 }   
                 echo '</td>';

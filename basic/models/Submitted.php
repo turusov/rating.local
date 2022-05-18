@@ -42,6 +42,7 @@ class Submitted extends \yii\db\ActiveRecord
             [['user_id', 'criteria_id', 'value'], 'required'],
             [['user_id', 'criteria_id', 'value', 'is_confirmed'], 'integer'],
             [['value'], 'in', 'range' => $this->valueBorders()],
+            [['value'], 'default', 'value'=>null],
             [['criteria_id'], 'exist', 'skipOnError' => true, 'targetClass' => Criteria::className(), 'targetAttribute' => ['criteria_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];

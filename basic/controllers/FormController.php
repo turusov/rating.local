@@ -49,14 +49,19 @@ class FormController extends Controller
         if (isset($_GET['user_id'])){
             $user_id = ($_GET['user_id']);
         }
-        else
+        else{
             $user_id = Yii::$app->user->identity->id;
-        
+        }
+        $user_status_id = Yii::$app->user->identity->user_status_id;
+        if (!isset($_GET['user_id'])){  // если завкаф нажал на кнопку заполнить свою форму, будет заполнять как преподаватель
+            if($user_status_id==3){
+                $user_status_id=4;
+            }
+        }
+        $access = CriteriaAccess::find()->where(['user_status_id'=>[$user_status_id]])->orderBy('criteria_id ASC')->all();//найдет в таблице пересечений criteria_access критерии которые можно заполнить.
         $criterias=Criteria::find()->where(['is_deleted'=>NULL])->all(); 
         $blocks=Block::find()->orderBy('id ASC')->all();
         $submitteds = Submitted::find()->where(['user_id'=>$user_id])->all();
-        $user_status_id = Yii::$app->user->identity->user_status_id;
-        $access = CriteriaAccess::find()->where(['user_status_id'=>[$user_status_id, 4]])->orderBy('criteria_id ASC')->all();//найдет в таблице пересечений criteria_access критерии которые может заполнять препод(user_status_id = 4) + другие по user->identity->status_id 
         // return (var_dump($user_status_id));
         // return (var_dump($access));
         $is_confirmed = False; //подтверждена ли форма
@@ -80,6 +85,7 @@ class FormController extends Controller
             if(!$exists)
             {
                 $sub = new Submitted();
+                $sub->value = null;
                 $sub->user_id = $user_id;
                 $sub->criteria_id = $criterias[$i]->id;
                 array_push($submitteds, $sub);
