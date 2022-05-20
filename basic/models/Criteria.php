@@ -11,7 +11,6 @@ use Yii;
  * @property int $criteria_id
  * @property string $criteria_title
  * @property string $info_point
- * @property int $access
  * @property int|null $is_deleted
  * @property int $block_id
  * @property int|null $min_value
@@ -37,7 +36,7 @@ class Criteria extends \yii\db\ActiveRecord
     {
         return [
             [['criteria_id', 'criteria_title', 'info_point', 'block_id'], 'required'],
-            [['criteria_id', 'access', 'is_deleted', 'block_id', 'min_value', 'max_value', 'is_subtract'], 'integer'],
+            [['criteria_id', 'is_deleted', 'block_id', 'min_value', 'max_value', 'is_subtract'], 'integer'],
             [['criteria_title', 'info_point'], 'string', 'max' => 255],
             [['block_id'], 'exist', 'skipOnError' => true, 'targetClass' => Block::className(), 'targetAttribute' => ['block_id' => 'id']],
         ];
@@ -53,7 +52,6 @@ class Criteria extends \yii\db\ActiveRecord
             'criteria_id' => 'Criteria ID',
             'criteria_title' => 'Название критерия',
             'info_point' => 'Информация о баллах',
-            'access' => 'Доступ',
             'is_deleted' => 'Активен в текущем году',
             'block_id' => 'Block ID',
             'min_value' => 'Минимальное значение',

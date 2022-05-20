@@ -58,10 +58,16 @@ class FormController extends Controller
                 $user_status_id=4;
             }
         }
+        if (isset($_GET['rating_time_id'])){
+            $rating_time_id = ($_GET['rating_time_id']);
+        }
+        else{
+            $rating_time_id = null;
+        }
         $access = CriteriaAccess::find()->where(['user_status_id'=>[$user_status_id]])->orderBy('criteria_id ASC')->all();//найдет в таблице пересечений criteria_access критерии которые можно заполнить.
         $criterias=Criteria::find()->where(['is_deleted'=>NULL])->all(); 
         $blocks=Block::find()->orderBy('id ASC')->all();
-        $submitteds = Submitted::find()->where(['user_id'=>$user_id])->all();
+        $submitteds = Submitted::find()->where(['user_id'=>$user_id, 'rating_time_id'=>$rating_time_id])->all();
         // return (var_dump($user_status_id));
         // return (var_dump($access));
         $is_confirmed = False; //подтверждена ли форма

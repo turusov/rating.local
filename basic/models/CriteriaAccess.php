@@ -30,7 +30,7 @@ class CriteriaAccess extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['criteria_id'], 'required'],
+            [['criteria_id', 'user_status_id'], 'required'],
             [['criteria_id', 'user_status_id'], 'integer'],
             [['criteria_id'], 'exist', 'skipOnError' => true, 'targetClass' => Criteria::className(), 'targetAttribute' => ['criteria_id' => 'id']],
             [['user_status_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserStatus::className(), 'targetAttribute' => ['user_status_id' => 'id']],
@@ -68,4 +68,5 @@ class CriteriaAccess extends \yii\db\ActiveRecord
     {
         return $this->hasOne(UserStatus::className(), ['id' => 'user_status_id']);
     }
+
 }

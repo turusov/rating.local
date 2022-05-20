@@ -17,7 +17,7 @@ class CriteriaSearch extends Criteria
     public function rules()
     {
         return [
-            [['id', 'criteria_id', 'access', 'is_deleted', 'block_id', 'min_value', 'max_value'], 'integer'],
+            [['id', 'criteria_id', 'is_deleted', 'block_id', 'min_value', 'max_value'], 'integer'],
             [['criteria_title', 'info_point'], 'safe'],
         ];
     }
@@ -60,7 +60,6 @@ class CriteriaSearch extends Criteria
         $query->andFilterWhere([
             'id' => $this->id,
             'criteria_id' => $this->criteria_id,
-            'access' => $this->access,
             'is_deleted' => $this->is_deleted,
             'block_id' => $this->block_id,
             'min_value' => $this->min_value,

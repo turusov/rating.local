@@ -33,7 +33,6 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'criteria_id',
             'criteria_title',
             'info_point',
-            'access',
             'is_deleted',
             // [
             //     'label'=>'Кафедра',

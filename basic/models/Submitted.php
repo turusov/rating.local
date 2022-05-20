@@ -10,9 +10,12 @@ use Yii;
  * @property int $id
  * @property int $user_id
  * @property int $criteria_id
- * @property int $value
+ * @property int|null $value
+ * @property int|null $is_confirmed
+ * @property int|null $rating_time_id
  *
  * @property Criteria $criteria
+ * @property RatingTime $ratingTime
  * @property User $user
  */
 class Submitted extends \yii\db\ActiveRecord
@@ -24,7 +27,6 @@ class Submitted extends \yii\db\ActiveRecord
     {
         return 'submitted';
     }
-
     public function valueBorders()
     {   
         $criteria = Criteria::find()->where(['id'=>$this->criteria_id])->limit(1)->one();
@@ -36,13 +38,18 @@ class Submitted extends \yii\db\ActiveRecord
         }
         return $arr;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+
     public function rules()
     {
         return [
-            [['user_id', 'criteria_id', 'value'], 'required'],
-            [['user_id', 'criteria_id', 'value', 'is_confirmed'], 'integer'],
+            [['user_id', 'criteria_id'], 'required'],
+            [['user_id', 'criteria_id', 'value', 'is_confirmed', 'rating_time_id'], 'integer'],
             [['value'], 'in', 'range' => $this->valueBorders()],
-            [['value'], 'default', 'value'=>null],
+            [['value', 'rating_time_id'], 'default', 'value'=>null],
             [['criteria_id'], 'exist', 'skipOnError' => true, 'targetClass' => Criteria::className(), 'targetAttribute' => ['criteria_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -58,6 +65,8 @@ class Submitted extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
             'criteria_id' => 'Criteria ID',
             'value' => 'Value',
+            'is_confirmed' => 'Is Confirmed',
+            'rating_time_id' => 'Rating Time ID',
         ];
     }
 
@@ -69,6 +78,16 @@ class Submitted extends \yii\db\ActiveRecord
     public function getCriteria()
     {
         return $this->hasOne(Criteria::className(), ['id' => 'criteria_id']);
+    }
+
+    /**
+     * Gets query for [[RatingTime]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRatingTime()
+    {
+        return $this->hasOne(RatingTime::className(), ['id' => 'rating_time_id']);
     }
 
     /**

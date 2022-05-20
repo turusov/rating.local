@@ -7,6 +7,7 @@ use app\models\CriteriaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\CriteriaAccess;
 
 /**
  * CriteriaController implements the CRUD actions for Criteria model.
@@ -40,10 +41,9 @@ class CriteriaController extends Controller
     {
         $searchModel = new CriteriaSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'dataProvider' => $dataProvider
         ]);
     }
 
@@ -131,7 +131,6 @@ class CriteriaController extends Controller
         if (($model = Criteria::findOne(['id' => $id])) !== null) {
             return $model;
         }
-
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

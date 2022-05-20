@@ -9,6 +9,7 @@ $this->title = 'Редактировать критерий: ' . $model->criteri
 $this->params['breadcrumbs'][] = ['label' => 'Критерии', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->criteria_title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Редактировать критерий';
+
 ?>
 <div class="criteria-update">
 

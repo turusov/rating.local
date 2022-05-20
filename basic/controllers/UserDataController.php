@@ -74,10 +74,18 @@ class UserDataController extends Controller
         if(Yii::$app->user->identity->getStatusTitle() != "admin")
         {
                 $user_data_id = UserData::find()->where(['user_id' => Yii::$app->user->identity->id])->one();
+                $query = sprintf("SELECT rt.name, rt.id
+                from submitted s
+                inner join rating_time rt 
+                on rt.id = s.rating_time_id
+                where user_id = %s", Yii::$app->user->identity->id);
+                $years = Yii::$app->db->createCommand($query)->queryAll();
+                // return(var_dump($years));
                 if(is_object($user_data_id))
                 {
                     return $this->render('view', [
                         'model' => $user_data_id,
+                        'years' => $years,
                     ]);
                 }
                 else

@@ -56,5 +56,14 @@ $f = Faculty::find()->all();
             ], 
         ],
     ]) ?>
+    
+    <?php
+    foreach($years as $year)
+    {
+        echo('<a href="index.php?r=form%2Ffill-form&user_id='.$model->user_id.'&rating_time_id='.$year['id'].'">'.$year['name'].'</a>');
+        // echo '<a class="button-add" href="index.php?r=teacher%2Fconfirm-form&user_id='.$users[$i]->user_id.'&is_confirm='.False.'" > Отменить подтверждение</a>';
+        echo("<br>");
+    } 
+    ?>
 
 </div>

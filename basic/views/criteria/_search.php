@@ -23,8 +23,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'info_point') ?>
 
-    <?= $form->field($model, 'access') ?>
-
     <?php // echo $form->field($model, 'is_deleted') ?>
 
     <?php // echo $form->field($model, 'block_id') ?>
