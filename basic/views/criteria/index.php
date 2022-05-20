@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         // array_push($arr, UserStatus::getStatusName($status));
                         if(!empty($str))
                             $str.=', ';
-                        $str.=UserStatus::getStatusName($status);
+                        $str.=UserStatus::getStatusName($status->user_status_id);
                     }
                     return $str;
                 }

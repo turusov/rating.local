@@ -77,22 +77,33 @@ class UserData extends \yii\db\ActiveRecord
     }
     public function calculateRating()
     {
-        $submitteds = Submitted::find()->where(['user_id'=>$this->user_id])->all();
-        $criterias = Criteria::find()->all();
-        $sum = 0;
-        $array = array();
-        foreach($criterias as $criteria)
+        $criterias = Criteria::find()->where(['is_deleted'=>null])->all(); //тащим критерии по которым нужно считать
+        $subtract = array();
+        $criteria_ids = array();
+        foreach($criterias as $criteria) //находим айдишники критериев и нужно ли по ним отнимать баллы
         {
-            $array[$criteria->id] = $criteria->is_subtract;
+            $subtract[$criteria->id] = $criteria->is_subtract;
+            array_push($criteria_ids, $criteria->id);
         }
-
+        $submitteds = Submitted::find()->where(['user_id'=>$this->user_id, 'criteria_id'=>$criteria_ids, 'rating_time_id'=>null])->all(); //находим формы которые надо считать
+        $sum = 0;
         foreach($submitteds as $submitted)
         {
-            if(is_null($array[$submitted->criteria_id]))
+            if(is_null($subtract[$submitted->criteria_id]))
                 $sum+= $submitted->value;
             else
                 $sum-= $submitted->value;
         }
         return $sum;
+    }
+    public static function getWorkRate($user_id)
+    {
+        $object = static::findOne(['user_id' => $user_id]); 
+        return $object ? $object->work_rate : null;
+    }
+    public static function getAcademicRank($user_id)
+    {
+        $object = static::findOne(['user_id' => $user_id]); 
+        return $object ? $object->academic_rank : null;
     }
 }

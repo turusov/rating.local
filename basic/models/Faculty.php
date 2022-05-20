@@ -66,6 +66,7 @@ class Faculty extends \yii\db\ActiveRecord
     }
     public static function getFacultyTitle($faculty_id)
     {
-       return static::findOne(['id' => $faculty_id])->title; 
+      $object = static::findOne(['id' => $faculty_id]); 
+      return $object ? $object->title : null;
     }
 }

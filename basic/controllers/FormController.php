@@ -15,6 +15,7 @@ use app\models\Criteria;
 use app\models\Submitted;
 use app\models\Block;
 use app\models\ArraySubmitted;
+use app\models\UserData;
 use app\models\CriteriaAccess;
 class FormController extends Controller
 {
@@ -91,7 +92,20 @@ class FormController extends Controller
             if(!$exists)
             {
                 $sub = new Submitted();
-                $sub->value = null;
+                if($criterias[$i]->id == 6)
+                {
+                    $sub->value = UserData::getWorkRate($user_id);
+                }
+                elseif($criterias[$i]->id ==1)
+                {
+                    $academic_rank = UserData::getAcademicRank($user_id);
+                    if($academic_rank == 'Доцент')
+                        $sub->value = 1;
+                    elseif($academic_rank == 'Профессор')
+                        $sub->value = 2;
+                }
+                else
+                     $sub->value = null;
                 $sub->user_id = $user_id;
                 $sub->criteria_id = $criterias[$i]->id;
                 array_push($submitteds, $sub);

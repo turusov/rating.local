@@ -70,6 +70,7 @@ class Department extends \yii\db\ActiveRecord
     }
     public static function getDepartmentTitle($department_id)
     {
-       return static::findOne(['id' => $department_id])->title; 
+       $object = static::findOne(['id' => $department_id]); 
+       return $object ? $object->title : null;
     }
 }
