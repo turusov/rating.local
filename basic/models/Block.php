@@ -53,16 +53,16 @@ class Block extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getCriterias()
-    {
-        return $this->hasMany(Criteria::className(), ['block_id' => 'id']);
-    }
-    public static function getBlockName($block_id)
+    // public function getCriterias()
+    // {
+    //     return $this->hasMany(Criteria::className(), ['block_id' => 'id']);
+    // }
+    public static function getBlockTitle($block_id)
     {
         return static::findOne(['id' => $block_id])->title;
     }
-    public static function getFacultyTitle($faculty_id)
-    {
-       return static::findOne(['id' => $faculty_id])->title; 
-    }
+    // public static function getFacultyTitle($faculty_id)
+    // {
+    //    return static::findOne(['id' => $faculty_id])->title; 
+    // }
 }

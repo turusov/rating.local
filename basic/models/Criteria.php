@@ -28,7 +28,6 @@ class Criteria extends \yii\db\ActiveRecord
     {
         return 'criteria';
     }
-
     /**
      * {@inheritdoc}
      */
@@ -38,6 +37,7 @@ class Criteria extends \yii\db\ActiveRecord
             [['criteria_id', 'criteria_title', 'info_point', 'block_id'], 'required'],
             [['criteria_id', 'is_deleted', 'block_id', 'min_value', 'max_value', 'is_subtract'], 'integer'],
             [['criteria_title', 'info_point'], 'string', 'max' => 255],
+            [['_accessArray'], 'safe'],
             [['block_id'], 'exist', 'skipOnError' => true, 'targetClass' => Block::className(), 'targetAttribute' => ['block_id' => 'id']],
         ];
     }
@@ -58,7 +58,7 @@ class Criteria extends \yii\db\ActiveRecord
             'max_value' => 'Максимальное значение',
         ];
     }
-
+    
     /**
      * Gets query for [[Block]].
      *
@@ -78,4 +78,5 @@ class Criteria extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Submitted::className(), ['criteria_id' => 'id']);
     }
+    public $_accessArray;
 }

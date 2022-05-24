@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\models\Department;
+use app\models\Block;
 /* @var $this yii\web\View */
 /* @var $model app\models\Criteria */
 
@@ -33,7 +34,18 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'criteria_id',
             'criteria_title',
             'info_point',
-            'is_deleted',
+            [
+                'label' => 'Блок',
+                'attribute' => 'block_id',
+                'value'=> Block::getBlockTitle($model->block_id)
+            ],
+            [
+                'label' => 'Активен в текущем году',
+                'attribute'=>'is_deleted',
+                'value' => function($is_deleted){
+                    return $is_deleted->is_deleted ? 'Нет' : 'Да' ;
+                },
+            ],
             // [
             //     'label'=>'Кафедра',
             //     'attribute'=> 'department_id',

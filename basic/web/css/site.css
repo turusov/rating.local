@@ -22,6 +22,16 @@ main > .container {
     margin-top: 30%;
 }
 
+.teacherlist_container {
+    width: 180px;
+  height: 600px;
+  overflow-y: scroll;
+  transform: rotate(-90deg);
+}
+.teacherlist_content {
+    transform: rotate(90deg);
+  }
+
 /* add sorting icons to gridview sort links */
 a.asc:after, a.desc:after {
     content: '';

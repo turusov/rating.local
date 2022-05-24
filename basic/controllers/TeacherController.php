@@ -48,8 +48,10 @@ class TeacherController extends Controller
     public function actionTeacherList()
     {
         $model = [];
-        $faculty=UserData::find()->where(['user_id' => Yii::$app->user->identity->id])->one()->faculty_id;
-        $users=UserData::find()->where(['faculty_id' => $faculty])->all();
+        $department=UserData::find()->where(['user_id' => Yii::$app->user->identity->id])->one()->department_id;
+        $teachers=UserData::find()->where(['department_id' => $department])->all();
+        $criterias=Criteria::find()->where(['is_deleted'=>NULL])->all(); 
+        $blocks=Block::find()->orderBy('id ASC')->all();
         // $ids = [];
         // foreach($users as $user){
         //     array_push($ids, $user->user_id);
@@ -63,14 +65,15 @@ class TeacherController extends Controller
         group by user_id 
         ) sq 
         on sq.user_id = user_data.user_id
-        where user_data.faculty_id = %s", $faculty);
+        where user_data.department_id = %s", $department);
         $submitteds=Yii::$app->db->createCommand($query)->queryAll();
         // return var_dump($submitteds[0]);
         $submitted_confirm_status = [];
-        foreach($users as $user){
+
+        foreach($teachers as $teacher){
             foreach($submitteds as $submitted){
-                if($submitted['user_id'] == $user->user_id){
-                    $submitted_confirm_status[$user->user_id] = $submitted['is_confirmed'];
+                if($submitted['user_id'] == $teacher->user_id){
+                    $submitted_confirm_status[$teacher->user_id] = $submitted['is_confirmed'];
                 }
             }
         }
@@ -78,7 +81,7 @@ class TeacherController extends Controller
         $confirm_value = Yii::$app->user->identity->getConfirmValue();
 
         // return var_dump($is_confirmed);
-        return $this->render('teacher-list', ['users'=>$users, 'submitted_confirm_status'=>$submitted_confirm_status, 'confirm_value'=>$confirm_value]);
+        return $this->render('teacher-list', ['teachers'=>$teachers, 'criterias'=> $criterias, 'blocks'=> $blocks, 'submitted_confirm_status'=>$submitted_confirm_status, 'confirm_value'=>$confirm_value]);
     }
 
     public function actionConfirmForm()

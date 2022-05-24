@@ -34,6 +34,7 @@ class CriteriaAccess extends \yii\db\ActiveRecord
             [['criteria_id', 'user_status_id'], 'integer'],
             [['criteria_id'], 'exist', 'skipOnError' => true, 'targetClass' => Criteria::className(), 'targetAttribute' => ['criteria_id' => 'id']],
             [['user_status_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserStatus::className(), 'targetAttribute' => ['user_status_id' => 'id']],
+            [['criteria_id'], 'safe'],
         ];
     }
 
@@ -69,4 +70,30 @@ class CriteriaAccess extends \yii\db\ActiveRecord
         return $this->hasOne(UserStatus::className(), ['id' => 'user_status_id']);
     }
 
+    // private $_criteria_id=null;
+    // public function init()
+    // {
+    //     $this->on(static::EVENT_AFTER_INSERT, [$this, 'criteria_id']);
+    //     $this->on(static::EVENT_AFTER_UPDATE, [$this, 'criteria_id']);
+    //     parent::init();
+    // }
+    // public function setCriteriaId($ids)
+    // {
+    //     $this->_criteria_id = (array) $ids;
+    // }
+
+    // protected function saveCriteriaId()
+    // {
+    // //сброс всех текущих связей
+    //     $this->unlinkAll('criterias', true);
+    //     $criterias = Criteria::find()->where(['id' => $this->_criterias_id])->all();
+    //     foreach ($criterias as $criteria) {
+    //         //Здесь Ваш способ линкования моделей. У меня это делается вот так:
+    //         $this->criterias = $criteria;
+    //     }
+    // }
+    // public function getCriteria()
+    // {
+    //     return $this->getRelation('criterias')->indexBy('id')->select('id')->column();
+    // }
 }

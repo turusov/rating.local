@@ -37,19 +37,15 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label'=> 'Блок',
                 'attribute'=> 'block_id',
-                // 'value'=> Block::getBlockName($block_id)
                 'value'=> function($model){
-                    return '№'.$model->block_id.' '.Block::getBlockName($model->block_id);
+                    return '№'.$model->block_id.' '.Block::getBlockTitle($model->block_id);
                 }
             ],
             [
                 'label'=> 'Активен в текущем году',
                 'attribute'=>'is_deleted',
                 'value'=> function($model){
-                    if(is_null($model->is_deleted))
-                        return 'Да';
-                    else 
-                        return 'Нет';
+                    return $model->is_deleted ? 'Нет' : 'Да' ;
                 }
             ], 
             [
@@ -61,7 +57,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     $str = '';
                     foreach($statuses as $status)
                     {
-                        // array_push($arr, UserStatus::getStatusName($status));
                         if(!empty($str))
                             $str.=', ';
                         $str.=UserStatus::getStatusName($status->user_status_id);

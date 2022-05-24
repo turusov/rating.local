@@ -6,22 +6,26 @@ use app\models\UserStatus;
 use app\models\Block;
 use app\models\Criteria;
 use app\models\CriteriaAccess;
+use yii\helpers\ArrayHelper; 
 /* @var $this yii\web\View */
 /* @var $model app\models\Criteria */
 /* @var $form yii\widgets\ActiveForm */
-$statuses = UserStatus::find()->all(); //кафедры
-foreach($statuses as $status)
-{
-    $roles[$status->id] = $status->title;
-}
-
 $blocks = Block::find()->all();
 foreach($blocks as $block)
 {
     $arr[$block->id] = '№'.$block->id.'. '.$block->title;
 }
 $blocks = $arr;
-$criteria_access = CriteriaAccess::find()->all();
+
+$attr_checked = [];
+
+// foreach($statuses as $status){
+//     if(CriteriaAccess::find()->where(['criteria_id'=>$model->id, 'user_status_id'=>$status->id])->one())    
+//         $attr_checked[$status->id] = true;
+//     else 
+//         $attr_checked[$status->id] = false;
+// }
+
 ?>
 
 
@@ -45,8 +49,11 @@ $criteria_access = CriteriaAccess::find()->all();
 
     <div class="row">
             <div class="col-lg-6">
-				<h3>Кто может заполнять: </h3>
-				<?php $i=0; 
+				<!-- <h3>Кто может заполнять: </h3> -->
+				<?php 
+
+                    // echo  $form->field($criteria_access, 'criteria_id')->checkboxList(UserStatus::find()->select('title')->indexBy('id')->column())->label('Кто может заполнять?');
+                    echo $form->field($model, '_accessArray')->checkboxList(ArrayHelper::map(UserStatus::find()->all(), 'id', 'title'), ['separator'=>'<br>'])->label('Кто может заполнять?');
                 ?>
 			</div>
     </div>

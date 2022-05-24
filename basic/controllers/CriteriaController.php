@@ -7,6 +7,7 @@ use app\models\CriteriaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use app\models\CriteriaAccess;
 
 /**
@@ -26,7 +27,7 @@ class CriteriaController extends Controller
                     'class' => VerbFilter::className(),
                     'actions' => [
                         'delete' => ['POST'],
-                    ],
+                    ]
                 ],
             ]
         );
@@ -95,8 +96,32 @@ class CriteriaController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $model->_accessArray = ArrayHelper::map(CriteriaAccess::find()->where(['criteria_id' => $id])->all(), 'id', 'user_status_id');
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            // $model->_accessArray = ArrayHelper::index($model->_accessArray, 'user_status_id');
+            // $model->_accessArray=ArrayHelper::getColumn($model->_accessArray, 'user_status_id');
+            $all_acc = CriteriaAccess::find()->where(['criteria_id'=>$model->id])->all();
+            if(!is_null($model->_accessArray))
+            {
+                foreach($all_acc as $i)
+                {
+                    if(!in_array($i->user_status_id, $model->_accessArray))
+                    {
+                        $i->delete();
+                    }
+                }
+            }
+            foreach($model->_accessArray as $i)
+            {
+                $acc = CriteriaAccess::findOne(['criteria_id' => $model->id, 'user_status_id' => $i]);
+                if(is_null($acc))
+                {
+                    $CriteriaAccess = new CriteriaAccess();
+                    $CriteriaAccess->criteria_id = $model->id;
+                    $CriteriaAccess->user_status_id = $i;
+                    $CriteriaAccess->save();
+                }
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
