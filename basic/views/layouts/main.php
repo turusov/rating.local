@@ -47,6 +47,8 @@ AppAsset::register($this);
             ['label' => 'Список преподавателей кафедры', 'url' => ['/teacher/teacher-list']],
             ['label' => 'Личный кабинет', 'url' => ['/user-data/view']],
             ['label' => 'Редактировать критерии', 'url' => ['/criteria/index']],
+            ['label' => 'Архив критериев', 'url' => ['criteria-archive/archive']],
+            ['label' => 'Рейтинг', 'url' => ['teacher/teacher-rating']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (

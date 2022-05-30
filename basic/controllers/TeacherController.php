@@ -107,6 +107,12 @@ class TeacherController extends Controller
         }
         return $this->redirect('index.php?r=teacher%2Fteacher-list');
     }
+    public function actionTeacherRating()
+    {
+        $department=UserData::find()->where(['user_id' => Yii::$app->user->identity->id])->one()->department_id;
+        $teachers=UserData::find()->where(['department_id' => $department])->all();
+        return $this->render('teacher-rating', ['teachers'=>$teachers]);
+    }
 }
 
 ?>

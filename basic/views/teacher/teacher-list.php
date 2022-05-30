@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 use app\models\Submitted;
 use app\models\Criteria;
 use app\models\Block;
-$this->title = 'Преподаватели';
+$this->title = 'Преподаватели кафедры';
 $this->params['breadcrumbs'][] = $this->title;
 
 

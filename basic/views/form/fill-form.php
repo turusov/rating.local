@@ -6,7 +6,7 @@ use app\models\Submitted;
 
 $this->title = 'Заполнить форму';
 $this->params['breadcrumbs'][] = $this->title;
-echo '<body class="background">';;
+echo '<body class="background">';
 echo '<table class="table table-striped table-bordered">';
 echo '<tr><th>№</th><th>Критерий</th><th>Разбалловка</th><th>Индивидуальный балл</th></tr>';
 
