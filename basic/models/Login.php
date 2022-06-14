@@ -11,7 +11,7 @@ class Login extends Model{
     {
         return [
             [['username', 'password'], 'required'],
-            ['username', 'string', 'min'=>4, 'max'=>13],
+            ['username', 'string', 'min'=>4, 'max'=>20],
             ['password', 'validatePassword'] //sobstvennaia function validacii
         ];
     }

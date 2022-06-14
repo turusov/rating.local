@@ -37,32 +37,121 @@ AppAsset::register($this);
             'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
         ],
     ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav'],
-        'items' => [
-            // ['label' => 'Home', 'url' => ['/site/index']],
-            // ['label' => 'About', 'url' => ['/site/about']],
-            // ['label' => 'Contact', 'url' => ['/site/contact']],
-            ['label' => 'Заполнить форму', 'url' => ['/form/fill-form']],
-            ['label' => 'Список преподавателей кафедры', 'url' => ['/teacher/teacher-list']],
-            ['label' => 'Личный кабинет', 'url' => ['/user-data/view']],
-            ['label' => 'Редактировать критерии', 'url' => ['/criteria/index']],
-            ['label' => 'Архив критериев', 'url' => ['criteria-archive/archive']],
-            ['label' => 'Рейтинг', 'url' => ['teacher/teacher-rating']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
+    if(Yii::$app->user->isGuest){
+        $items = [
+        ['label' => 'Contact', 'url' => ['/site/contact']],
+        ['label' => 'Login', 'url' => ['/site/login']],
+        ];
+    }
+    else{
+        switch (Yii::$app->user->identity->user_status_id){
+        case 2:
+            $items = [
+                // ['label' => 'Home', 'url' => ['/site/index']],
+                // ['label' => 'About', 'url' => ['/site/about']],
+                // ['label' => 'Contact', 'url' => ['/site/contact']],
+                ['label' => 'Заполнить форму', 'url' => ['/form/fill-form']],
+                ['label' => 'Список преподавателей кафедры', 'url' => ['/teacher/teacher-list']],
+                ['label' => 'Личный кабинет', 'url' => ['/user-data/view']],
+                ['label' => 'Редактировать критерии', 'url' => ['/criteria/index']],
+                ['label' => 'Архив критериев', 'url' => ['criteria-archive/archive']],
+                ['label' => 'Рейтинг', 'url' => ['teacher/teacher-rating']],
+                Yii::$app->user->isGuest ? (
+                    ['label' => 'Login', 'url' => ['/site/login']]
+                ) : (
+                    '<li>'
+                    . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
+                    . Html::submitButton(
+                        'Logout (' . Yii::$app->user->identity->username . ')',
+                        ['class' => 'btn btn-link logout']
+                    )
+                    . Html::endForm()
+                    . '</li>'
                 )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
-    ]);
+            ];
+            break;
+        case 3:
+            $items = [
+                ['label' => 'Заполнить форму', 'url' => ['/form/fill-form']],
+                ['label' => 'Список преподавателей кафедры', 'url' => ['/teacher/teacher-list']],
+                ['label' => 'Личный кабинет', 'url' => ['/user-data/view']],
+                Yii::$app->user->isGuest ? (
+                    ['label' => 'Login', 'url' => ['/site/login']]
+                ) : (
+                    '<li>'
+                    . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
+                    . Html::submitButton(
+                        'Logout (' . Yii::$app->user->identity->username . ')',
+                        ['class' => 'btn btn-link logout']
+                    )
+                    . Html::endForm()
+                    . '</li>'
+                )
+            ];
+        break;
+        case 4: 
+            $items = [
+                ['label' => 'Contact', 'url' => ['/site/contact']],
+                ['label' => 'Заполнить форму', 'url' => ['/form/fill-form']],
+                ['label' => 'Личный кабинет', 'url' => ['/user-data/view']],
+                ['label' => 'Рейтинг', 'url' => ['teacher/teacher-rating']],
+                Yii::$app->user->isGuest ? (
+                    ['label' => 'Login', 'url' => ['/site/login']]
+                ) : (
+                    '<li>'
+                    . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
+                    . Html::submitButton(
+                        'Logout (' . Yii::$app->user->identity->username . ')',
+                        ['class' => 'btn btn-link logout']
+                    )
+                    . Html::endForm()
+                    . '</li>'
+                )
+            ];
+        break;
+        case 5: 
+            $items = [
+                ['label' => 'Contact', 'url' => ['/site/contact']],
+                ['label' => 'Список преподавателей кафедры', 'url' => ['/teacher/teacher-list']],
+                ['label' => 'Редактировать критерии', 'url' => ['/criteria/index']],
+                ['label' => 'Архив критериев', 'url' => ['criteria-archive/archive']],
+                ['label' => 'Рейтинг', 'url' => ['teacher/teacher-rating']],
+                Yii::$app->user->isGuest ? (
+                    ['label' => 'Login', 'url' => ['/site/login']]
+                ) : (
+                    '<li>'
+                    . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
+                    . Html::submitButton(
+                        'Logout (' . Yii::$app->user->identity->username . ')',
+                        ['class' => 'btn btn-link logout']
+                    )
+                    . Html::endForm()
+                    . '</li>'
+                )
+            ];
+        break;
+        default:
+            $items = [
+                ['label' => 'Contact', 'url' => ['/site/contact']],
+                Yii::$app->user->isGuest ? (
+                    ['label' => 'Login', 'url' => ['/site/login']]
+                ) : (
+                    '<li>'
+                    . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
+                    . Html::submitButton(
+                        'Logout (' . Yii::$app->user->identity->username . ')',
+                        ['class' => 'btn btn-link logout']
+                        )
+                        . Html::endForm()
+                        . '</li>'
+                        )
+                    ];
+                }
+            }
+        echo Nav::widget([
+            'options' => ['class' => 'navbar-nav'],
+            'items' => $items,
+        ]);
     NavBar::end();
     ?>
 </header>
@@ -79,7 +168,7 @@ AppAsset::register($this);
 
 <footer class="footer mt-auto py-3 text-muted">
     <div class="container">
-        <p class="float-left">&copy; Aleksei T. <?= date('Y') ?></p>
+        <p class="float-left">&copy; Лаборатория программных систем ИМИ <?= date('Y') ?></p>
         <p class="float-right"><?= Yii::powered() ?></p>
     </div>
 </footer>
