@@ -16,6 +16,7 @@ use app\models\Submitted;
 use app\models\User;
 use app\models\UserData;
 use app\models\Block;
+use app\models\Department;
 use yii\helpers\ArrayHelper;
 class TeacherController extends Controller
 {
@@ -48,7 +49,12 @@ class TeacherController extends Controller
     public function actionTeacherList()
     {
         $model = [];
-        $department=UserData::find()->where(['user_id' => Yii::$app->user->identity->id])->one()->department_id;
+        if (isset($_GET['department'])){
+            $department = ($_GET['department']);
+        }
+        else{
+            $department=UserData::find()->where(['user_id' => Yii::$app->user->identity->id])->one()->department_id;
+        }
         $teachers=UserData::find()->where(['department_id' => $department])->all();
         $criterias=Criteria::find()->where(['is_deleted'=>NULL])->all(); 
         $blocks=Block::find()->orderBy('id ASC')->all();
@@ -111,7 +117,17 @@ class TeacherController extends Controller
     {
         $department=UserData::find()->where(['user_id' => Yii::$app->user->identity->id])->one()->department_id;
         $teachers=UserData::find()->where(['department_id' => $department])->all();
+        usort($teachers, function ($l, $r){
+            return  ($l->calculateRating() < $r->calculateRating());
+        }
+        );
         return $this->render('teacher-rating', ['teachers'=>$teachers]);
+    }
+    public function actionTeacherDepartments()
+    {
+        $faculty = 1;
+        $departments=Department::find()->where(['faculty_id'=>$faculty])->all();
+        return $this->render('teacher-departments', ['departments' => $departments]);
     }
 }
 

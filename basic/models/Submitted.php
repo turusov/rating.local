@@ -32,7 +32,7 @@ class Submitted extends \yii\db\ActiveRecord
         $criteria = Criteria::find()->where(['id'=>$this->criteria_id])->limit(1)->one();
         $min_value = $criteria->min_value;
         $max_value = $criteria->max_value;
-        $arr = [0];
+        $arr = [0, 1.5];
         for($i = $min_value; $i<=$max_value; $i++){
             array_push($arr,$i);
         }
@@ -47,8 +47,12 @@ class Submitted extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'criteria_id'], 'required'],
-            [['user_id', 'criteria_id', 'value', 'is_confirmed', 'rating_time_id'], 'integer'],
+            [['user_id', 'criteria_id', 'is_confirmed', 'rating_time_id'], 'integer'],
+            [['value'], 'double'],
             [['value'], 'in', 'range' => $this->valueBorders()],
+            // [['value'], function($attribute, $params){
+            //     if($this<)
+            // }],
             [['value', 'rating_time_id'], 'default', 'value'=>null],
             [['criteria_id'], 'exist', 'skipOnError' => true, 'targetClass' => Criteria::className(), 'targetAttribute' => ['criteria_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],

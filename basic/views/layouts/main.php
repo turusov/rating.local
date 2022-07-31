@@ -112,7 +112,7 @@ AppAsset::register($this);
         case 5: 
             $items = [
                 ['label' => 'Contact', 'url' => ['/site/contact']],
-                ['label' => 'Список преподавателей кафедры', 'url' => ['/teacher/teacher-list']],
+                ['label' => 'Список преподавателей', 'url' => ['/teacher/teacher-departments']],
                 ['label' => 'Редактировать критерии', 'url' => ['/criteria/index']],
                 ['label' => 'Архив критериев', 'url' => ['criteria-archive/archive']],
                 ['label' => 'Рейтинг', 'url' => ['teacher/teacher-rating']],

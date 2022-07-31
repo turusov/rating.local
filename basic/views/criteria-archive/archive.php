@@ -16,7 +16,7 @@ if(!is_null($years)){
 }
 echo 'Текущие активные критерии:';
 echo '<div class="form-group" style="float:center;">';
-    echo Html::submitButton('Рассчитать рейтинг по текущим критериям', ['class' => 'btn btn-success']);
+    // echo Html::submitButton('Рассчитать рейтинг по текущим критериям', ['class' => 'btn btn-success']);
 echo '</div>';
 echo '<table class="table table-striped table-bordered">';
 echo '<tr><th>№</th><th>Критерий</th><th>Разбалловка</th></tr>';
